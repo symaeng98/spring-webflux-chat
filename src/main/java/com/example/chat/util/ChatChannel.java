@@ -3,15 +3,17 @@ package com.example.chat.util;
 import com.example.chat.dto.ChatEventDto;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Sinks;
+import reactor.core.publisher.Sinks.Many;
+
+import static reactor.core.publisher.Sinks.many;
 
 @Component
 public class ChatChannel {
-    private final Sinks.Many<ChatEventDto> chatEvents;
+    private final Many<ChatEventDto> chatEvents;
     public ChatChannel(){
-        this.chatEvents = Sinks.many().multicast().directAllOrNothing();
+        this.chatEvents = many().multicast().directAllOrNothing();
     }
-    public Sinks.Many<ChatEventDto> getSink(){
+    public Many<ChatEventDto> getSink(){
         return this.chatEvents;
     }
     public Flux<ChatEventDto> asFlux(){

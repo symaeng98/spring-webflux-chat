@@ -1,30 +1,28 @@
-//한 페이지에는 (1,이지윤,1) 다른페이지에는 (5, 이종혁,1) 넣으면 테스트 데이터 확인 가능
 const searchParams=new URLSearchParams(location.search);
 
-// http://localhost:8080/?user-idx=1&user-name=맹순영&other-name=뉴진스
-// http://localhost:8080/?user-idx=2&user-name=뉴진스&other-name=맹순영
-let userIdx=searchParams.get('user-idx') //채팅방 조회 api로 세개 다 넘어올 예정-> prompt는 사용하지 않고 대체할 것
-let userName=searchParams.get('user-name'); //userIdx, userName : 자기 자신 회원 idx, 이름
-//let roomNum=searchParams.get('room-num') // 채팅방 번호
-let otherName=searchParams.get('other-name')//이건 채팅방 목록 조회 api에서 넘어옵니다
-console.log(userIdx)
+// http://localhost:8080/?user_id=1&room_id=1&username=맹순영&receiver_name=뉴진스
+// http://localhost:8080/?user_id=2&room_id=1&username=뉴진스&receiver_name=맹순영
+let userId=searchParams.get('user_id') //채팅방 조회 api로 세개 다 넘어올 예정-> prompt는 사용하지 않고 대체할 것
+let userName=searchParams.get('username'); //userId, userName : 자기 자신 회원 idx, 이름
+let roomId=searchParams.get('room_id') // 채팅방 번호
+let receiverName=searchParams.get('receiver_name')//이건 채팅방 목록 조회 api에서 넘어옵니다
 
-document.querySelector("#username").innerHTML = `${otherName}님과 채팅중입니다.`;
+document.querySelector("#username").innerHTML = `${receiverName}님과 채팅중입니다.`;
 
-const eventSource= new EventSource("http://localhost:8080/chat/sse");
+const eventSource= new EventSource("http://localhost:8080/chat/"+userId+"/sse");
 eventSource.onmessage=(event)=>{
     const data=JSON.parse(event.data);
-    //상대방으로부터 메세지가 전송되는 이벤트가 발생하면 DB에 저장된 데이터를 불러온다.
-    if(data.chatDto.senderId==userIdx){ //전송자가 내가 아니면 다른사람이므로 반대쪽에 렌더링하면 됨
-        //파란박스 (내가 보낸 메세지)
-        initMyMessage(data.chatDto);
+    if (data.chatDto.roomId == roomId){
+        //상대방으로부터 메세지가 전송되는 이벤트가 발생하면 DB에 저장된 데이터를 불러온다.
+        if(data.chatDto.senderId==userId){ //전송자가 내가 아니면 다른사람이므로 반대쪽에 렌더링하면 됨
+            //파란박스 (내가 보낸 메세지)
+            initMyMessage(data.chatDto);
+        }
+        else{
+            //회색박스 (상대방이 보낸 메세지)
+            initYourMessage(data.chatDto);
+        }
     }
-    else{
-        //회색박스 (상대방이 보낸 메세지)
-        initYourMessage(data.chatDto);
-    }
-
-
 }
 
 
@@ -41,11 +39,8 @@ eventSource.onmessage=(event)=>{
 
 
 function getSendMsgBox(data) {
-
-//    let md = data.createdAt.substring(5, 10)
-//    let tm = data.createdAt.substring(11, 16)
-//    convertTime = tm + " | " + md
     convertTime = data.createdAt;
+    console.log(data);
     //내가 입력한 채팅 박스 생성하기
     return `
     <div class="sent_msg">
@@ -56,10 +51,7 @@ function getSendMsgBox(data) {
 }
 
 function getReceivedMsgBox(data) {
-
-    let md = data.createdAt.substring(5, 10)
-    let tm = data.createdAt.substring(11, 16)
-    convertTime = tm + " | " + md
+    convertTime = data.createdAt;
     //상대편에서 보낸 채팅 박스 생성하기
     return `
     <div class="received_withd_msg">
@@ -117,10 +109,10 @@ async function newChat(){
     }
     let minutes = today.getMinutes();
     let chat={
-        senderId:userIdx,
+        senderId:userId,
         senderName:userName,
         createdAt: amPm + hours + "시 " + minutes + "분",
-//        room_num:roomNum,
+        roomId:roomId,
         content: msgInput.value
     };
 

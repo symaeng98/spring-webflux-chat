@@ -7,9 +7,10 @@ import lombok.Data;
 @Builder
 public class ChatDto {
     private String content;
-    private int senderId;
-    private int receiverId;
+    private String senderId;
+    private String receiverId;
     private String senderName;
     private String receiverName;
     private String createdAt;
+    private String roomId;
 }
