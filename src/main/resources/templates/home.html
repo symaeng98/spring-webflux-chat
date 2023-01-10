@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>res</title>
+    <title>home</title>
 </head>
 <body>
+<div th:each="friend : ${friendList}" class="button">
+    <button th:id="user-button+${friend.id}"
+            th:onclick="getChatPopUp([[${friend}]])" th:text="user+${friend.id}"></button>
+</div>
 
+<script>
+
+</script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    function getChatPopUp(friend) {
+        console.log(friend);
+        console.log(friend.id);
+        let userId = /*[[${userId}]]*/;
+        let userName = /*[[${userName}]]*/;
+        window.open("http://localhost:8080?user_id="+userId+"&room_id=1&receiver_id="+friend.id+"&username="+userName+"&receiver_name="+friend.name
+        ,"채팅","width=600,height=670,location=no,status=no,scrollbars=yes");
+    }
+
+    /*]]*/
+</script>
 </body>
 </html>

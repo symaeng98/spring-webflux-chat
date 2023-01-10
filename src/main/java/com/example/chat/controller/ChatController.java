@@ -29,7 +29,6 @@ public class ChatController {
     @GetMapping(value = "/chat/{userId}/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<ChatEventDto> chatSse(@PathVariable("userId") String userId){
         System.out.println("userId : " + userId);
-        chatChannelMap.putUserChannel(userId);
         ChatChannel chatChannel = chatChannelMap.getChannelById(userId);
         return chatChannel.asFlux();
     }

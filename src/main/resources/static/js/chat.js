@@ -1,16 +1,18 @@
 const searchParams=new URLSearchParams(location.search);
 
-// http://localhost:8080/?user_id=1&room_id=1&username=맹순영&receiver_name=뉴진스
-// http://localhost:8080/?user_id=2&room_id=1&username=뉴진스&receiver_name=맹순영
+// http://localhost:8080/?user_id=1&room_id=1&receiver_id=2&username=맹순영&receiver_name=뉴진스
+// http://localhost:8080/?user_id=2&room_id=1&receiver_id=1&username=뉴진스&receiver_name=맹순영
 let userId=searchParams.get('user_id') //채팅방 조회 api로 세개 다 넘어올 예정-> prompt는 사용하지 않고 대체할 것
 let userName=searchParams.get('username'); //userId, userName : 자기 자신 회원 idx, 이름
 let roomId=searchParams.get('room_id') // 채팅방 번호
+let receiverId=searchParams.get('receiver_id') // 채팅방 번호
 let receiverName=searchParams.get('receiver_name')//이건 채팅방 목록 조회 api에서 넘어옵니다
 
 document.querySelector("#username").innerHTML = `${receiverName}님과 채팅중입니다.`;
 
 const eventSource= new EventSource("http://localhost:8080/chat/"+userId+"/sse");
 eventSource.onmessage=(event)=>{
+    console.log(event.data);
     const data=JSON.parse(event.data);
     if (data.chatDto.roomId == roomId){
         //상대방으로부터 메세지가 전송되는 이벤트가 발생하면 DB에 저장된 데이터를 불러온다.
@@ -111,11 +113,14 @@ async function newChat(){
     let chat={
         senderId:userId,
         senderName:userName,
+        receiverId:receiverId,
+        receiverName:receiverName,
         createdAt: amPm + hours + "시 " + minutes + "분",
         roomId:roomId,
         content: msgInput.value
     };
-
+    // 내꺼 뿌리고 전송
+    initMyMessage(chat);
     fetch("/chat",{
         method:"post",//http post 메소드 (새로운 데이터를 write할때 사용)
         body:JSON.stringify(chat),
@@ -139,34 +144,4 @@ document.querySelector("#chat-outgoing-msg").addEventListener("keydown",(e)=>{
         newChat();
     }
 })
-function send() {
-    let content = document.getElementById('content').value;
-    let user = document.getElementById('select-user').value;
-    console.log(user);
-    let senderId = 2;
-    let receiverId = 1;
-    let senderName = "조휴일";
-    let receiverName = "맹순영";
-    if (user==1){
-        senderId = 1;
-        receiverId = 2;
-        senderName = "맹순영";
-        receiverName = "조휴일";
-    }
-    let param = {
-        content:content,
-        senderId:senderId,
-        receiverId:receiverId,
-        senderName:senderName,
-        receiverName:receiverName
-    }
-    console.log(param);
 
-    fetch("/chat", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(param),
-        }).then((response) => console.log(response));
-}

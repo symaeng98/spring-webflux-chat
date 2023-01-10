@@ -13,7 +13,7 @@ public class ChatService {
     private final ChatChannelMap chatChannelMap;
 
     public void saveChat(ChatDto chatDto){
-        ChatChannel chatChannel = chatChannelMap.getChannelById(chatDto.getSenderId());
+        ChatChannel chatChannel = chatChannelMap.getChannelById(chatDto.getReceiverId());
         chatChannel.getSink()
                 .tryEmitNext(ChatEventDto.builder()
                         .chatDto(chatDto).build());

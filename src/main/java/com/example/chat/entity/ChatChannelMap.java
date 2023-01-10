@@ -11,7 +11,7 @@ public class ChatChannelMap {
     private final Map<String, ChatChannel> chatChannelMap = new HashMap<>();
 
     public ChatChannel getChannelById(String userId){
-        return chatChannelMap.get(userId);
+        return chatChannelMap.computeIfAbsent(userId, k -> new ChatChannel());
     }
 
     public void putUserChannel(String userId){

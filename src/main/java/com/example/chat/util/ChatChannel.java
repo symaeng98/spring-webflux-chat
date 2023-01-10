@@ -7,7 +7,6 @@ import reactor.core.publisher.Sinks.Many;
 
 import static reactor.core.publisher.Sinks.many;
 
-@Component
 public class ChatChannel {
     private final Many<ChatEventDto> chatEvents;
     public ChatChannel(){

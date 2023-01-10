@@ -2,9 +2,10 @@ package com.example.chat.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+@NoArgsConstructor
 public class ChatDto {
     private String content;
     private String senderId;
