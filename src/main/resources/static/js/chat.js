@@ -20,9 +20,12 @@ eventSource.onmessage=(event)=>{
             //파란박스 (내가 보낸 메세지)
             initMyMessage(data.chatDto);
         }
-        else{
+        else if(data.chatDto.senderId == receiverId){
             //회색박스 (상대방이 보낸 메세지)
             initYourMessage(data.chatDto);
+        }
+        else{
+            console.log(data.chatDto.senderId + "님께서 메시지를 보냈습니다.");
         }
     }
 }
