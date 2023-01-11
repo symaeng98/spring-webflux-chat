@@ -10,6 +10,8 @@ let receiverName=searchParams.get('receiver_name')//이건 채팅방 목록 조�
 
 document.querySelector("#username").innerHTML = `${receiverName}님과 채팅중입니다.`;
 
+loadChat();
+
 const eventSource= new EventSource("http://localhost:8080/chat/"+userId+"/sse");
 eventSource.onmessage=(event)=>{
     console.log(event.data);
@@ -125,7 +127,7 @@ async function newChat(){
     // 내꺼 뿌리고 전송
     initMyMessage(chat);
     fetch("/chat",{
-        method:"post",//http post 메소드 (새로운 데이터를 write할때 사용)
+        method:"post",//http post 메소드 (새로운 데이터를 write 할 때 사용)
         body:JSON.stringify(chat),
         headers:{
             "Content-Type":"application/json; charset=utf-8"
@@ -134,6 +136,40 @@ async function newChat(){
 
     msgInput.value="";
 }
+
+function loadChat(){
+    console.log("loadChat 실행");
+    fetch("/chat?" + new URLSearchParams({
+        userId : userId,
+        receiverId : receiverId
+    }))
+    .then(function(res){
+        console.log(res);
+        if(res.status){
+            let data = res.data;
+            console.log(data);
+            data.forEach(c => {
+                console.log(c);
+                //상대방으로부터 메세지가 전송되는 이벤트가 발생하면 DB에 저장된 데이터를 불러온다.
+                if(c.senderId==userId){ //전송자가 내가 아니면 다른사람이므로 반대쪽에 렌더링하면 됨
+                    //파란박스 (내가 보낸 메세지)
+                    initMyMessage(c);
+                }
+                else if(c.senderId == receiverId){
+                    //회색박스 (상대방이 보낸 메세지)
+                    initYourMessage(c);
+                }
+                else{
+                    console.log(c.senderId + "님께서 메시지를 보냈습니다.");
+                }
+            })
+        }
+        else{
+            alert("이전 채팅 불러오기를 실패하였습니다.");
+        }
+    })
+}
+
 
 //채팅 전송 버튼 누를 시
 document.querySelector("#chat-send").addEventListener("click",()=>{
@@ -147,4 +183,3 @@ document.querySelector("#chat-outgoing-msg").addEventListener("keydown",(e)=>{
         newChat();
     }
 })
-
