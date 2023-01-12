@@ -33,18 +33,6 @@ eventSource.onmessage=(event)=>{
 }
 
 
-
-//const eventSource= new EventSource("http://localhost:8080/chat/sse");
-//eventSource.onmessage=(event)=>{
-//    console.log(event.data);
-//    const data = JSON.parse(event.data);
-//    console.log(data);
-//    var content = document.createElement("p");
-//    content.innerHTML = `${data.chatDto.senderName}: ${data.chatDto.content}`;
-//    document.querySelector("#chat-content").append(content);
-//}
-
-
 function getSendMsgBox(data) {
     convertTime = data.createdAt;
     console.log(data);

@@ -1,7 +1,6 @@
 package com.example.chat.util;
 
-import com.example.chat.dto.ChatEventDto;
-import org.springframework.stereotype.Component;
+import com.example.chat.domain.chat.dto.ChatEventDto;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks.Many;
 

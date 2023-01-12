@@ -1,4 +1,4 @@
-package com.example.chat.dto;
+package com.example.chat.domain.chat.dto;
 
 import com.example.chat.entity.Chat;
 import lombok.*;

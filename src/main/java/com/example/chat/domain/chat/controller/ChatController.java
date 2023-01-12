@@ -1,10 +1,10 @@
-package com.example.chat.controller;
+package com.example.chat.domain.chat.controller;
 
-import com.example.chat.dto.ChatDto;
-import com.example.chat.dto.ChatEventDto;
+import com.example.chat.domain.chat.dto.ChatDto;
+import com.example.chat.domain.chat.dto.ChatEventDto;
 import com.example.chat.entity.ChatChannelMap;
 import com.example.chat.response.SuccessResponse;
-import com.example.chat.service.ChatService;
+import com.example.chat.domain.chat.service.ChatService;
 import com.example.chat.util.ChatChannel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -39,7 +39,10 @@ public class ChatController {
             @RequestParam("receiverId") String receiverId
     ){
         System.out.println("chat 불러오기");
+        System.out.println("userId : " + userId);
+        System.out.println("receiverId : " + receiverId);
         List<ChatDto> chatList = chatService.getChatList(userId, receiverId);
+        System.out.println("불러온 채팅 개수 : "+chatList.size());
         return ResponseEntity.ok(new SuccessResponse(true, "채팅 불러오기 성공", chatList));
     }
 }

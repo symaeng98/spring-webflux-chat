@@ -6,8 +6,8 @@
 </head>
 <body>
 <div th:each="friend : ${friendList}" class="button">
-    <button th:id="user-button+${friend.id}"
-            th:onclick="getChatPopUp([[${friend}]])" th:text="user+${friend.id}"></button>
+    <button th:id="user-button+${friend.userId}"
+            th:onclick="getChatPopUp([[${friend}]])" th:text="${friend.name}"></button>
 </div>
 
 <script>
@@ -18,10 +18,10 @@
 
     function getChatPopUp(friend) {
         console.log(friend);
-        console.log(friend.id);
+        console.log(friend.userId);
         let userId = /*[[${userId}]]*/;
         let userName = /*[[${userName}]]*/;
-        window.open("http://localhost:8080?user_id="+userId+"&room_id=1&receiver_id="+friend.id+"&username="+userName+"&receiver_name="+friend.name
+        window.open("http://localhost:8080?user_id="+userId+"&room_id=1&receiver_id="+friend.userId+"&username="+userName+"&receiver_name="+friend.name
         ,"채팅","width=600,height=670,location=no,status=no,scrollbars=yes");
     }
 

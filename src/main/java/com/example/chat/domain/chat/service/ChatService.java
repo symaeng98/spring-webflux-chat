@@ -1,16 +1,15 @@
-package com.example.chat.service;
+package com.example.chat.domain.chat.service;
 
-import com.example.chat.dto.ChatDto;
-import com.example.chat.dto.ChatEventDto;
+import com.example.chat.domain.chat.dto.ChatDto;
+import com.example.chat.domain.chat.dto.ChatEventDto;
 import com.example.chat.entity.Chat;
 import com.example.chat.entity.ChatChannelMap;
 import com.example.chat.entity.ErrorCode;
 import com.example.chat.exception.CommonException;
-import com.example.chat.repository.ChatRepository;
+import com.example.chat.domain.chat.repository.ChatRepository;
 import com.example.chat.util.ChatChannel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
 import java.util.List;

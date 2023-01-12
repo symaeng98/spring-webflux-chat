@@ -1,6 +1,6 @@
 package com.example.chat.entity;
 
-import com.example.chat.dto.ChatDto;
+import com.example.chat.domain.chat.dto.ChatDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
