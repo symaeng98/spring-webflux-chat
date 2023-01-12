@@ -19,8 +19,8 @@
     function getChatPopUp(friend) {
         console.log(friend);
         console.log(friend.userId);
-        let userId = /*[[${userId}]]*/;
-        let userName = /*[[${userName}]]*/;
+        let userId = /*[[${user.userId}]]*/;
+        let userName = /*[[${user.name}]]*/;
         window.open("http://localhost:8080?user_id="+userId+"&room_id=1&receiver_id="+friend.userId+"&username="+userName+"&receiver_name="+friend.name
         ,"채팅","width=600,height=670,location=no,status=no,scrollbars=yes");
     }

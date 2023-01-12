@@ -103,6 +103,7 @@ async function newChat(){
         amPm = "오후 ";
     }
     let minutes = today.getMinutes();
+    console.log(userName);
     let chat={
         senderId:userId,
         senderName:userName,

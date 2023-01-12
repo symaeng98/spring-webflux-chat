@@ -1,7 +1,9 @@
-package com.example.chat.domain.home.controller;
+package com.example.chat.domain.user.controller;
 
 import com.example.chat.domain.friend.dto.FriendDto;
 import com.example.chat.domain.friend.service.FriendService;
+import com.example.chat.domain.user.dto.UserDto;
+import com.example.chat.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,17 +14,14 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class HomeController {
+public class UserController {
     private final FriendService friendService;
+    private final UserService userService;
     @GetMapping("/user/{userId}")
     public String index(@PathVariable("userId") String userId, Model model){
+        UserDto user = userService.getUser(userId);
         List<FriendDto> friendList = friendService.getFriendList(userId);
-        String id = friendList.get(0).getUserId();
-        String name = friendList.get(0).getName();
-        System.out.println(id);
-        System.out.println(name);
-        model.addAttribute("userId", userId);
-        model.addAttribute("userName", "user"+userId);
+        model.addAttribute("user", user);
         model.addAttribute("friendList",friendList);
         return "home";
     }
