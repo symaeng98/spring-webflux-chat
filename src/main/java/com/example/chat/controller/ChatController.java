@@ -2,7 +2,6 @@ package com.example.chat.controller;
 
 import com.example.chat.dto.ChatDto;
 import com.example.chat.dto.ChatEventDto;
-import com.example.chat.entity.Chat;
 import com.example.chat.entity.ChatChannelMap;
 import com.example.chat.response.SuccessResponse;
 import com.example.chat.service.ChatService;
@@ -12,11 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,11 +34,12 @@ public class ChatController {
     }
 
     @GetMapping("/chat")
-    public List<ChatDto> getChatList(
+    public ResponseEntity<SuccessResponse> getChatList(
             @RequestParam("userId") String userId,
             @RequestParam("receiverId") String receiverId
     ){
         System.out.println("chat 불러오기");
-        return chatService.getChatList(userId, receiverId);
+        List<ChatDto> chatList = chatService.getChatList(userId, receiverId);
+        return ResponseEntity.ok(new SuccessResponse(true, "채팅 불러오기 성공", chatList));
     }
 }

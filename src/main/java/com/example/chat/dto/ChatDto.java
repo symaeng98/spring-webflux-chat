@@ -1,11 +1,10 @@
 package com.example.chat.dto;
 
 import com.example.chat.entity.Chat;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class ChatDto {
     private String content;

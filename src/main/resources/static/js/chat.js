@@ -143,8 +143,8 @@ function loadChat(){
         userId : userId,
         receiverId : receiverId
     }))
+    .then((response)=>response.json())
     .then(function(res){
-        console.log(res);
         if(res.status){
             let data = res.data;
             console.log(data);
