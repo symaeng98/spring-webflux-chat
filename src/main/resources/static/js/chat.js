@@ -3,6 +3,7 @@ const searchParams=new URLSearchParams(location.search);
 // http://localhost:8080/?user_id=1&room_id=1&receiver_id=2&username=맹순영&receiver_name=뉴진스
 // http://localhost:8080/?user_id=2&room_id=1&receiver_id=1&username=뉴진스&receiver_name=맹순영
 let userId=searchParams.get('user_id') //채팅방 조회 api로 세개 다 넘어올 예정-> prompt는 사용하지 않고 대체할 것
+console.log(userId + '잉')
 let userName=searchParams.get('username'); //userId, userName : 자기 자신 회원 idx, 이름
 let roomId=searchParams.get('room_id') // 채팅방 번호
 let receiverId=searchParams.get('receiver_id') // 채팅방 번호

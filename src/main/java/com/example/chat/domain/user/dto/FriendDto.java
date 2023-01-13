@@ -1,4 +1,4 @@
-package com.example.chat.domain.friend.dto;
+package com.example.chat.domain.user.dto;
 
 import lombok.Builder;
 import lombok.Data;
@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class FriendDto {
-    private String userId;
+    private String id;
     private String name;
 }

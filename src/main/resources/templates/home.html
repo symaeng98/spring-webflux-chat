@@ -1,31 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
 <head>
     <meta charset="UTF-8">
     <title>home</title>
+    <!-- 부트스트랩 css 사용 -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
+
 <body>
-<div th:each="friend : ${friendList}" class="button">
-    <button th:id="user-button+${friend.userId}"
-            th:onclick="getChatPopUp([[${friend}]])" th:text="${friend.name}"></button>
+<div style="margin:20px">
+    <p style="font-weight:bold; font-size:large">친구 목록</p>
+    <div style="margin:20px 20px 20px 0px" th:each="friend : ${friendList}" class="button">
+        <button class="btn btn-secondary"  th:id="user-button+${friend.userId}"
+                th:onclick="getChatPopUp([[${friend}]])" th:text="${friend.name}">맹순영</button>
+    </div>
 </div>
-
-<script>
-
-</script>
 <script th:inline="javascript">
     /*<![CDATA[*/
 
     function getChatPopUp(friend) {
         console.log(friend);
         console.log(friend.userId);
-        let userId = /*[[${user.userId}]]*/;
-        let userName = /*[[${user.name}]]*/;
+        let userId = /*[[${user.id}]]*/
+        let userName = /*[[${user.name}]]*/
         window.open("http://localhost:8080?user_id="+userId+"&room_id=1&receiver_id="+friend.userId+"&username="+userName+"&receiver_name="+friend.name
         ,"채팅","width=600,height=670,location=no,status=no,scrollbars=yes");
     }
 
     /*]]*/
 </script>
+<!--  부트스트랩 js 사용 -->
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
 </body>
 </html>
