@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class BoardExceptionHandler {
+public class ChatExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @ExceptionHandler(CommonException.class)
     public ResponseEntity<ErrorResponse> handleNoSuchMemberException(CommonException e){

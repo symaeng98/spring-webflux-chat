@@ -20,8 +20,10 @@ public class User {
     private String _id;
     private String password;
     private String name;
+    @Builder.Default
     private List<FriendDto> friendsList = new ArrayList<>();
-    private String profileImageUrl;
+    @Builder.Default
+    private String profileImageUrl = "/img/img.png";
 
     public UserDto toDto(){
         return UserDto.builder()

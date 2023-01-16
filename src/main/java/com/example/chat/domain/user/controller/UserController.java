@@ -3,6 +3,7 @@ package com.example.chat.domain.user.controller;
 import com.example.chat.domain.user.dto.FriendDto;
 import com.example.chat.domain.user.dto.UserDto;
 import com.example.chat.domain.user.service.UserService;
+import com.example.chat.domain.user.vo.FriendIdVO;
 import com.example.chat.domain.user.vo.JoinVO;
 import com.example.chat.domain.user.vo.LoginVO;
 import com.example.chat.entity.ErrorCode;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -34,7 +33,7 @@ public class UserController {
     public String index(HttpServletRequest httpServletRequest, Model model){
         String userId = (String) httpServletRequest.getSession().getAttribute("userId");
         System.out.println(userId);
-        UserDto user = userService.getUser(userId);
+        UserDto user = userService.getUserDto(userId);
         List<FriendDto> friendList = user.getFriendsList();
         model.addAttribute("user", user);
         model.addAttribute("friendList",friendList);
@@ -79,5 +78,14 @@ public class UserController {
         HttpSession session = request.getSession();
         session.setAttribute("userId", user.get_id());
         return ResponseEntity.ok(new SuccessResponse(true, "로그인을 성공하였습니다.", null));
+    }
+
+    @PostMapping("/api/friend")
+    @ResponseBody
+    public ResponseEntity<SuccessResponse> addFriend(@RequestBody FriendIdVO friendIdVO, HttpServletRequest httpServletRequest){
+        String userId = (String) httpServletRequest.getSession().getAttribute("userId");
+        String friendId = friendIdVO.getFriendId();
+        userService.addFriend(userId, friendId);
+        return ResponseEntity.ok(new SuccessResponse(true, "친구 추가를 성공하였습니다.", null));
     }
 }

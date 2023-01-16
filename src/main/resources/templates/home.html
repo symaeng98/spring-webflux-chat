@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/comm.js}"></script>
 <head>
     <meta charset="UTF-8">
     <title>home</title>
@@ -13,10 +14,19 @@
 <div style="margin:20px">
     <p style="font-weight:bold; font-size:large">친구 목록</p>
     <div style="margin:20px 20px 20px 0px" th:each="friend : ${friendList}" class="button">
-        <button class="btn btn-secondary"  th:id="user-button+${friend.userId}"
+        <button class="btn btn-secondary"  th:id="user-button+${friend.id}"
                 th:onclick="getChatPopUp([[${friend}]])" th:text="${friend.name}">맹순영</button>
     </div>
+
+    <p style="font-weight:bold; font-size:midium">친구 추가</p>
+    <div class="input-group mb-3">
+        <input id="input-friend-id" type="text" class="form-control" style="width:400px;" placeholder="친구 ID" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" onclick="addFriend()">Button</button>
+        </div>
+    </div>
 </div>
+
 <script th:inline="javascript">
     /*<![CDATA[*/
 
@@ -25,11 +35,32 @@
         console.log(friend.userId);
         let userId = /*[[${user.id}]]*/
         let userName = /*[[${user.name}]]*/
-        window.open("http://localhost:8080?user_id="+userId+"&room_id=1&receiver_id="+friend.userId+"&username="+userName+"&receiver_name="+friend.name
+        window.open("http://localhost:8080?user_id="+userId+"&room_id=1&receiver_id="+friend.id+"&username="+userName+"&receiver_name="+friend.name
         ,"채팅","width=600,height=670,location=no,status=no,scrollbars=yes");
     }
 
     /*]]*/
+
+const addFriend = () => {
+    var friendId = document.getElementById("input-friend-id").value
+    console.log(friendId);
+    data = {
+        friendId : friendId
+    }
+    gfnPostFetch("/api/friend", data)
+        .then(function (result) {
+              console.log(result);
+              if (result.status) {
+                  openAlert("친구 목록에 추가하였습니다.")
+                  .then(()=>{
+                    location.reload();
+                  })
+              } else {
+                  openAlert(result.message);
+              }
+          })
+}
+
 </script>
 <!--  부트스트랩 js 사용 -->
 <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
